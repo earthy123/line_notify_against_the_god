@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
 # In[10]:
@@ -13,17 +13,19 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import os
-
-
+import datetime
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 # In[11]:
 
 
 file_name = 'against_the_god_lastest_ch.txt'
 current_path =os.getcwd()
 url ='https://notify-api.line.me/api/notify'
-# authen = 'Bearer YOUR TOKEN'
 
-authen = 'Bearer Your token'
+
+authen = 'Bearer YOUR TOKEN'
 
 
 # In[3]:
@@ -49,9 +51,10 @@ victim_url ="https://www.kawebook.com/story/70/%E0%B8%99%E0%B8%B4%E0%B8%A2%E0%B8
 
 
 options = webdriver.ChromeOptions()
-options.add_argument('headless')
+options.add_argument('--headless')
+options.add_argument("--incognito")
 # browser = webdriver.PhantomJS()
-browser = webdriver.Chrome(executable_path=current_path+'/chromedriver',chrome_options=options)
+browser = webdriver.Chrome(chrome_options=options)
 browser.get(victim_url)
 
 
@@ -72,12 +75,12 @@ except TimeoutException:
 html = browser.page_source
 soup = BeautifulSoup(html, "lxml")
 pos = soup.find_all(class_="purple-color-light")[-1]
-
+browser.quit()
 
 # In[20]:
 
 
-current_ch =str.strip(pos.get_text())
+current_ch =(pos.get_text().strip())
 
 
 # In[17]:
@@ -104,5 +107,5 @@ else:
     text='ยังไม่มีตอนใหม่'
     send_noti(url,authen,text)
     
-print('done')
+print('done at: ',datetime.datetime.now())
 
