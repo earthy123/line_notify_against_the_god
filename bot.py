@@ -1,6 +1,5 @@
-
-#!/usr/bin/env python
 # coding: utf-8
+#!/usr/bin/env python
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -83,16 +82,21 @@ def load_prev(FILE_NAME):
 # In[69]:
 
 
-def check_new_chapter(P_CH,C_CH,FILE_NAME,AUTHEN):
+def check_new_chapter(P_CH,C_CH,FILE_NAME,AUTHEN,LANG=None):
     if P_CH!=C_CH:
-        text=' '+C_CH
+        if LANG=='th':
+            text=' '+C_CH+'\n'+th_url
+        elif LANG=='en':
+            text=' '+C_CH+'\n'+eng_url
+        else:
+            text=' '+C_CH
         send_noti(line_url,AUTHEN,text)
         with open(FILE_NAME,'w') as f:
             f.write(C_CH)
-    else:
-        text='ยังไม่มีตอนใหม่'
-        send_noti(line_url,AUTHEN,text)
-    print('CH: ',C_CH)
+    #else:
+        #text='ยังไม่มีตอนใหม่'
+        #send_noti(line_url,AUTHEN,text)
+    #print('CH: ',C_CH)
     print('done at: ',datetime.datetime.now())
 
 
@@ -108,25 +112,27 @@ eng_soup =get_component(eng_url,eng_xpath)
 
 th_component =th_soup.find_all(class_="purple-color-light")[-1]
 th_current_ch =th_component.get_text().strip()
-
+s_txt = th_current_ch.split(' ')
+th_current_ch = ' '.join(s_txt[1:])
+print(th_current_ch)
 
 # In[72]:
 
 
 eng_component = eng_soup.find_all(class_="badge chapter-badge")[0]
 eng_current_ch =eng_component.get_text().strip()
-
+print(eng_current_ch)
 
 # In[73]:
 
-
+th_lang ='th'
 th_previous_ch = load_prev(th_file_name)
-check_new_chapter(th_previous_ch,th_current_ch,th_file_name,authen)
+check_new_chapter(th_previous_ch,th_current_ch,th_file_name,authen,th_lang)
 
 
 # In[74]:
 
-
+en_eng_lang = 'en'
 eng_previous_ch = load_prev(eng_file_name)
-check_new_chapter(eng_previous_ch,eng_current_ch,eng_file_name,authen)
+check_new_chapter(eng_previous_ch,eng_current_ch,eng_file_name,authen,en_eng_lang)
 
