@@ -67,7 +67,7 @@ pip install requests
 Read it on example.ipynb
 ```
 
-#### If Selenium show the error about Session
+### If Selenium show the error about Session
 Installing Chromium Chromedriver
 
 ```
