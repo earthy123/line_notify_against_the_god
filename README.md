@@ -66,3 +66,15 @@ pip install requests
 ```
 Read it on example.ipynb
 ```
+
+#### If Selenium show the error about Session
+Installing Chromium Chromedriver
+
+```
+sudo apt-get install chromium-chromedriver
+
+```
+Adding the path to the selenium line
+```
+driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+```
